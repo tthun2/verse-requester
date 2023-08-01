@@ -1,0 +1,18 @@
+{
+  "name": "verse-requester",
+  "version": "1.0.0",
+  "description": "Replicate https://text.recoveryversion.bible/list/list.htm",
+  "main": "bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git", 
+    "url": "C:\\Programming\\verse-requester"
+  },
+  "author": "T.H.",
+  "license": "ISC",
+  "bin": {
+    "verse": "./bin/index.js"
+  }
+}
