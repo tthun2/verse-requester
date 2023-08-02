@@ -42,3 +42,18 @@ Understanding how to read json files with Node.js
 Figuring out how to access each object (book, chapter, verse, text) in the json file
 
 -----
+
+Day 2 
+02/Aug/2023
+
+Looked at the asv.json file again and saw that 'verses' is an array. 
+So the way to search for a particular book, chapter and verse is probably going through the array one by one and match.
+Changed from using 'every' function to a for loop so that I can use break once the verse is found.
+It seems faster this way.
+
+
+Considered how to accept books with numbers such as 1 Kings.
+Added an if statement to check if args[2] is 1, 2 or 3.
+
+
+Added a function to check if the book name entered is a shorthand by using the includes function.
