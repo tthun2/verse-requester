@@ -8,9 +8,6 @@ args[1] is the script path
 Hence, args[2] is the first value
 */
 const args = process.argv;
-const chapterAndVerse = args[3].split(":"); //split chapter and verse by the :
-const chap = chapterAndVerse[0];
-const vers = chapterAndVerse[1];
 
 //console.log("(Book chapter:verse) " + args[2] + " " + chap + ":" + vers);
 
@@ -34,27 +31,5 @@ if (!found) {
     console.log(args[2] + " " + chap + ":" + vers + ' cannot be found. Please check your spelling and try again.')
 }
 
-console.log(asv.verses[23145]); //This is Matthew 1:1
-/*
-console.log(asv.verses[
-    {
-        book_name: 'Genesis',
-        book: 1,
-        chapter: 4,
-        verse: 20,
-        text: 'And Adah bare Jabal: he was the father of such as dwell in tents and [have] cattle.'
-    }
-    ].text);
 
 
-verses: [
-    {
-        book_name: 'Genesis',
-        book: 1,
-        chapter: 3,
-        verse: 24,
-        text: 'So he drove out the man;...
-    }
-]
-
-*/
