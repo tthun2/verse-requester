@@ -65,8 +65,3 @@ Added more input validation checks such as Song of Songs/Song of Solomon/S.S.
 
 
 Updated the Bible path to 'bin\\asv.json', so that this script can be run from the root folder (verse-requester)
-
-
-
-
-
