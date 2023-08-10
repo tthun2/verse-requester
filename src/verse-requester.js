@@ -1,4 +1,4 @@
-let verseRequester = (args) => {
+const verseRequester = (args) => {
     var targetBook;
     var chapter_and_verse;
     var targetChapter;

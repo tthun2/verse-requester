@@ -10,7 +10,7 @@ Hence, args[2] is the first value
 */
 
 const args = process.argv;
-console.log(args)
+
 verseRequester(args);
 
 //console.log(asv.verses[0]); //This is Genesis 1:1
