@@ -50,10 +50,7 @@ if (goodToGo) {
     targetChapter = chapter_and_verse[0];
     targetVerse = chapter_and_verse[1];
 
-    const fs = require('fs');
-
-    let rawdata = fs.readFileSync('bin\\asv.json');
-    let asv = JSON.parse(rawdata);
+    let asv = require('../data/asv.json');
 
     var found = false;
 
