@@ -5,7 +5,8 @@
   "main": "bin/index.js",
   "scripts": {
     "test": "vitest",
-    "start": "node bin/index.js"
+    "start": "node bin/index.js",
+    "format": "npx prettier --write ."
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,10 @@
     "verse": "./bin/index.js"
   },
   "devDependencies": {
+    "prettier": "^3.0.1",
     "vitest": "^0.34.1"
+  },
+  "dependencies": {
+    "eslint": "^8.46.0"
   }
 }

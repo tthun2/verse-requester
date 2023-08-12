@@ -65,3 +65,26 @@ Added more input validation checks such as Song of Songs/Song of Solomon/S.S.
 
 
 Updated the Bible path to 'bin\\asv.json', so that this script can be run from the root folder (verse-requester)
+
+-----
+
+Day 4
+11/08/2023
+
+
+Added prettier
+https://blog.bitsrc.io/add-prettier-to-your-project-d7e91ac03d05
+
+
+Added eslint
+
+
+Understanding returning multiple vlaues from a function using an object
+https://www.scaler.com/topics/javascript-return-multiple-values/
+
+
+Read through Jake's comments and made changes accordingly.
+Simplified the input validation.
+Split the original code into smaller functions.
+1. splitInput
+2. getVerseText

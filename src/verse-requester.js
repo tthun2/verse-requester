@@ -1,82 +1,86 @@
-const verseRequester = (args) => {
-    var targetBook;
-    var chapter_and_verse;
-    var targetChapter;
-    var targetVerse;
-    var goodToGo = true;
+let bible = require('../data/asv.json');
 
-    if (args[2] == undefined || args[3] == undefined) { //Book name or chapter:verse arguments are not entered
-        goodToGo = inputNotComplete();
-    } else if (args[2] == 1 || args[2] == 2 || args[2] == 3) { //In case of books with 1, 2 or 3 in front of the book name. E.g. 1 Corinthians
-        if (args[3] == undefined || args[4] == undefined) {
-            goodToGo = inputNotComplete();
-        } else {
-            targetBook = args[2] + ' ' + args[3];
-            chapter_and_verse = args[4].split(":"); //Split chapter and verse by the :
-        }
-    } else if (
-        args[2].toLowerCase() == 'song' && args[3].toLowerCase() == 'of' && args[4].toLowerCase() == 'songs' ||
-        args[2].toLowerCase() == 'song' && args[3].toLowerCase() == 'of' && args[4].toLowerCase() == 'solomon' || //Song of Songs is also known as Song of Solomon
-        args[4] != undefined && 'Song of Solomon'.toLowerCase().includes(args[2].toLowerCase() + ' ' + args[3].toLowerCase() + ' ' + args[4].toLowerCase()) || //Check shorthand like Song of Sol
-        args[4] != undefined && 'Song of Songs'.toLowerCase().includes(args[2].toLowerCase() + ' ' + args[3].toLowerCase() + ' ' + args[4].toLowerCase())) {  //Check shorthand like Song of S
+let verseRequester = (args) => {
+    let {
+        error,
+        targetBook,
+        targetChapter,
+        targetVerse
+    } = splitInput(args);
 
-        targetBook = 'Song of Solomon';
-        chapter_and_verse = args[5].split(":"); //Split chapter and verse by the :
-
-    } else if (args[2].toLowerCase() == 's.s.') {
-        targetBook = 'Song of Solomon';
-        chapter_and_verse = args[3].split(":"); //Split chapter and verse by the :
+    if (error) {
+        console.log("Please enter a book name, chapter and verse. E.g. Matthew 1:1");
+        return "Please enter a book name, chapter and verse. E.g. Matthew 1:1";
     } else {
-        targetBook = args[2];
-        chapter_and_verse = args[3].split(":"); //Split chapter and verse by the :
+        return getVerseText(targetBook, targetChapter, targetVerse);
+    }
+}
+
+//Concat all args to become 1 string
+//Then split the string into book, chapter and verse
+function splitInput(args) {
+    let inputString = "";
+    let error = false;
+
+    for (let i = 2; i < args.length; i++) {
+        inputString += args[i] + " ";
     }
 
-    if (goodToGo && chapter_and_verse[1] == undefined || //This is to check if a verse is entered. Maybe only the chapter is entered.
-        goodToGo && chapter_and_verse[1] == '') {
-        goodToGo = inputNotComplete();
+    const temp = inputString.split(":"); //Get verse first
+    const temp2 = temp[0].split(" "); //Get book and chapter
+
+    let verse = temp[1];
+    let chapter = temp2[temp2.length - 1];
+    let book = temp[0].substring(0, temp[0].length - chapter.length);
+
+    if (!book || !chapter || !verse) {
+        error = true;
+    } else { //everything is defined, so trim any extra spaces
+        book = book.trim();
+        chapter = chapter.trim();
+        verse = verse.trim();
     }
 
-    if (goodToGo) {
-        targetChapter = chapter_and_verse[0];
-        targetVerse = chapter_and_verse[1];
+    //console.log(book + " " + chapter + " " + verse);
 
-        let asv = require('../data/asv.json');
+    return {
+        error: error,
+        targetBook: book,
+        targetChapter: chapter,
+        targetVerse: verse
+    };
+}
 
-        var found = false;
+function getVerseText(targetBook, targetChapter, targetVerse) {
 
-        for (let i = 0; i < asv.verses.length; i++) {
-            if (checkBookName(asv.verses[i].book_name, targetBook) &&
-                asv.verses[i].chapter == targetChapter &&
-                asv.verses[i].verse == targetVerse) {
-                return (asv.verses[i].book_name + " " + targetChapter + ":" + targetVerse + " - " + asv.verses[i].text);
-                found = true;
-                break;
-            }
-        }
+    let verseObject = bible.verses.find(item => validateBookName(item.book_name, targetBook) && item.chapter.toString() === targetChapter && item.verse.toString() === targetVerse);
 
-        if (!found) {
-            return (targetBook + " " + targetChapter + ":" + targetVerse + ' cannot be found. Please check the reference and try again.')
-        }
+    if (verseObject) {
+        console.log(`${verseObject.book_name} ${targetChapter}:${targetVerse} - ${verseObject.text}`);
+        return (`${verseObject.book_name} ${targetChapter}:${targetVerse} - ${verseObject.text}`);
+    } else {
+        console.log(`${targetBook} ${targetChapter}:${targetVerse} cannot be found. Please check the reference and try again.`)
+        return (`${targetBook} ${targetChapter}:${targetVerse} cannot be found. Please check the reference and try again.`)
     }
+
 }
 
 //Check if the name of the book is correctly entered
 //It also accepts shorthand (minimum 3 characters)
-function checkBookName(sourceBook, targetBook) {
-    if (sourceBook.toLowerCase() == targetBook.toLowerCase()) {
+function validateBookName(sourceBook, targetBook) {
+    if (sourceBook.toLowerCase() === targetBook.toLowerCase()) {
         return true;
     } else if (targetBook.length >= 3 && sourceBook.toLowerCase().includes(targetBook.toLowerCase())) {
         return true;
+    } else if (sourceBook.toLowerCase() === "song of solomon" || sourceBook.toLowerCase() === "song of songs") {
+        if (targetBook.length >= 3 && "song of songs".includes(targetBook.toLowerCase()) ||
+            targetBook.length >= 3 && "song of solomon".includes(targetBook.toLowerCase()) ||
+            targetBook.length >= 3 && "s.s.".includes(targetBook.toLowerCase())) {
+            return true;
+        }
     } else {
         return false;
     }
 }
 
-function inputNotComplete() {
-    console.log('Please enter a book name, chapter and verse. E.g. Matthew 1:1');
-    return false;
-}
-
 module.exports = { verseRequester };
-//console.log(asv.verses[0]); //This is Genesis 1:1
-//console.log(asv.verses[23145]); //This is Matthew 1:1
