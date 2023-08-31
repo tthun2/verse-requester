@@ -4,15 +4,24 @@
   "description": "Replicate https://text.recoveryversion.bible/list/list.htm",
   "main": "bin/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest",
+    "start": "node bin/index.js",
+    "format": "npx prettier --write ."
   },
   "repository": {
-    "type": "git", 
+    "type": "git",
     "url": "C:\\Programming\\verse-requester"
   },
   "author": "T.H.",
   "license": "ISC",
   "bin": {
     "verse": "./bin/index.js"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.1",
+    "vitest": "^0.34.1"
+  },
+  "dependencies": {
+    "eslint": "^8.46.0"
   }
 }
